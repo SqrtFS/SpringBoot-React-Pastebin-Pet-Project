@@ -40,20 +40,24 @@ You can run the entire infrastructure with a single command.
 HOW TO RUN ->
 --------------Steps--------------
 
-before starting be sure that you filled jwt secret key just generate in a any web site base64 and put inside (INSIDE THE FILE .env.example !!!)
+0.      before starting be sure that you filled jwt secret key just generate in a any web site base64 and put inside (INSIDE THE FILE .env.example !!!)
+        npm install
+        npm install react-router-dom
+       (if necessary mvn clean install)
 
-1.  Clone the repository:
+
+2.  Clone the repository:
     ```bash
     git clone [https://github.com/YOUR_USERNAME/SpringBoot-React-Pastebin.git](https://github.com/YOUR_USERNAME/SpringBoot-React-Pastebin.git)
     cd SpringBoot-React-Pastebin
     ```
 
-2.  Build and Run:
+3.  Build and Run:
     ```bash
     docker compose up -d --build
     ```
 
-3.  Access the Application:**
+4.  Access the Application:**
      Frontend: [http://localhost](http://localhost)
       Backend API: [http://localhost:8080](http://localhost:8080)
        MinIO Console: [http://localhost:9090](http://localhost:9090) (User/Pass: `minio` / `minioroot`)

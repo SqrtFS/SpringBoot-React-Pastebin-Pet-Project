@@ -44,6 +44,7 @@ HOW TO RUN ->
         npm install
         npm install react-router-dom
        (if necessary mvn clean install)
+         add ROLE_USER , ROLE_ADMIN manually in db
 
 
 2.  Clone the repository:

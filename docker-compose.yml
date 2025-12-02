@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: pastebin-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  minio:
+    image: minio/minio:latest
+    container_name: pastebin-minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    command: server /data --console-address ":9090"
+    ports:
+      - "9000:9000"   # API
+      - "9090:9090"   # Web console
+    volumes:
+      - minio_data:/data
+
+  app:
+    build: ../java/SpringBoot-React-Pastebin copy 3
+    container_name: pastebin-app
+    restart: always
+    env_file:
+      - ../java/SpringBoot-React-Pastebin copy 3/.env
+    ports:
+      - "${SERVER_PORT}:8080"
+    depends_on:
+      - db
+      - minio
+
+  frontend:
+    build:
+      context: frontend-reactjs
+      dockerfile: frontend-reactjs/Dockerfile
+    container_name: pastebin-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+volumes:
+  db_data:
+  minio_data:

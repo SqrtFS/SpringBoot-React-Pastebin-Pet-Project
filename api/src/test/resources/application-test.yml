@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: PastebinTestApp
+
+  # --- DATABASE (H2 instead MySQL) ---
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+
+  sql:
+    init:
+      mode: never
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+# --- MINIO
+MINIO_URL: http://localhost:9000
+MINIO_ACCESS_KEY: test
+MINIO_SECRET_KEY: test
+MINIO_BUCKET: test-bucket
+
+# --- APP VARIABLES ---
+SPRING_APP_NAME: PastebinTest
+SERVER_PORT: 8080
+JWT_SECRET: test-secret-key-that-is-long-enough-for-signing-token-12345

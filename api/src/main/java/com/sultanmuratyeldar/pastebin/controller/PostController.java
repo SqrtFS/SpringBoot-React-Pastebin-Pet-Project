@@ -10,6 +10,8 @@ import com.sultanmuratyeldar.pastebin.service.PostService;
 import com.sultanmuratyeldar.pastebin.service.StorageService;
 import com.sultanmuratyeldar.pastebin.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +36,9 @@ public class PostController {
     private final HashIndexService hashIndexService;
 
     @GetMapping
+    @Cacheable(value = "posts")
     public List<PostDto> getAll() {
+        System.out.println(">>> Loading posts from DB");
         return postService.findAll()
                 .stream()
                 .map(postMapper::toDto)
@@ -42,12 +46,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value = "post", key = "#id")
     public PostDto getById(@PathVariable("id") Long id) {
+        System.out.println(">>> Loading ONE post from DB");
         Post post = postService.getPostById(id);
         return postMapper.toDto(post);
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(value = {"posts", "post", "post_content"}, allEntries = true)
     public HttpStatus deletePost(@PathVariable("id") Long id) {
         Post post = postService.getPostById(id);
         HashIndex hashIndex = hashIndexService.getByHash(post.getContentHash());
@@ -57,6 +64,7 @@ public class PostController {
     }
 
     @PostMapping
+    @CacheEvict(value = "posts", allEntries = true)
     public PostDto createPostFromText(
             @RequestParam("text") String text,
             Principal principal
@@ -82,6 +90,7 @@ public class PostController {
     }
 
     @PutMapping
+    @CacheEvict(value = {"posts", "post"}, allEntries = true)
     public PostDto updatePost(@RequestBody PostDto postDto) {
         Post post = postMapper.toEntity(postDto);
         Post updated = postService.updatePost(post);

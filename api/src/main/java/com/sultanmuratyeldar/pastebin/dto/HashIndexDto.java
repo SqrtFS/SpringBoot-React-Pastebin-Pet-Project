@@ -2,10 +2,11 @@ package com.sultanmuratyeldar.pastebin.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Data
-public class HashIndexDto {
+public class HashIndexDto implements Serializable {
     private String hash;
     private String storagePath;
     private Long size;

@@ -3,6 +3,8 @@ package com.sultanmuratyeldar.pastebin.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "posts")
 @Getter
@@ -10,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Post {
+public class Post  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

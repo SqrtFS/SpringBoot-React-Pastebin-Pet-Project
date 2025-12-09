@@ -17,6 +17,7 @@ pnpm-debug.log*
 
 # Editor folders
 .idea/
+*.iml
 .vscode/
 
 # OS files
